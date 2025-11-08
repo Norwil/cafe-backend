@@ -1,0 +1,2 @@
+INSERT INTO menu.menu_items (name, description, price) VALUES ('Cappuccino', 'Classic Italian coffee', 12.50);
+INSERT INTO menu.menu_items (name, description, price) VALUES ('Baklava', 'Sweet Turkish dessert', 18.00);
