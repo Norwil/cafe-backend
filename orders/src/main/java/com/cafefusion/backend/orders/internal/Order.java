@@ -1,5 +1,6 @@
 package com.cafefusion.backend.orders.internal;
 
+import com.cafefusion.backend.orders.api.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,10 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal totalPrice;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
 
@@ -32,5 +37,6 @@ public class Order {
     public Order(Instant createdAt, BigDecimal totalPrice) {
         this.createdAt = createdAt;
         this.totalPrice = totalPrice;
+        this.status = OrderStatus.PENDING;
     }
 }
