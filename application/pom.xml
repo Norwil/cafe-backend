@@ -51,6 +51,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.cafefusion</groupId>
+            <artifactId>event</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <scope>test</scope>
