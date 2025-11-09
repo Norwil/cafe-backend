@@ -1,6 +1,8 @@
 package com.cafefusion.backend.menu.api;
 
+import com.cafefusion.backend.menu.api.model.CreateMenuItemRequest;
 import com.cafefusion.backend.menu.api.model.MenuItemDto;
+import com.cafefusion.backend.menu.api.model.UpdateMenuItemRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,4 +27,19 @@ public interface MenuApi {
      * @return A lsit of all currently available menu items.
      */
     List<MenuItemDto> getAllMenuItems();
+
+    /**
+     * Creates a new menu item. (Admin Only)
+     */
+    MenuItemDto createMenuItem(CreateMenuItemRequest request);
+
+    /**
+     * Updates an existing menu item. (Admin Only)
+     */
+    MenuItemDto updateMenuItem(Long id, UpdateMenuItemRequest request);
+
+    /**
+     * Deletes a menu item. (Admin Only)
+     */
+    void deleteMenuItem(Long id);
 }

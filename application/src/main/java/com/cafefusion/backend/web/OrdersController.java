@@ -7,6 +7,7 @@ import com.cafefusion.backend.orders.api.model.UpdateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +19,13 @@ public class OrdersController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('USER')")
     public OrderDto createNewOrder(@RequestBody CreateOrderRequest request) {
         return ordersApi.createOrder(request);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") Long orderId) {
         return ordersApi.getOrderById(orderId)
                 .map(orderDto -> ResponseEntity.ok(orderDto))
@@ -30,12 +33,14 @@ public class OrdersController {
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public OrderDto updateOrderStatus(@PathVariable("id") Long orderId, @RequestBody UpdateOrderRequest request) {
         return ordersApi.updateOrderStatus(orderId, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteOrder(@PathVariable("id") Long orderId) {
         ordersApi.deleteOrder(orderId);
     }
