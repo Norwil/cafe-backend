@@ -6,6 +6,7 @@ import com.cafefusion.backend.events.api.model.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public EventDto createNewEvent(@RequestBody CreateEventRequest request) {
         return eventApi.createEvent(request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteEvent(@PathVariable("id") Long eventId) {
         eventApi.deleteEvent(eventId);
     }

@@ -18,7 +18,8 @@
 		<module>menu</module>
 		<module>orders</module>
 		<module>event</module>
-	</modules>
+        <module>users</module>
+    </modules>
 	<url/>
 	<licenses>
 		<license/>
