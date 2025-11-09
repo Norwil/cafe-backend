@@ -2,16 +2,15 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
@@ -20,5 +19,5 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Build and Test with Maven
-        run: ./mvnw clean install
+      - name: Build & Run Tests (Unit + Integration)
+        run: mvn clean verify

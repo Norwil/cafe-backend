@@ -17,6 +17,7 @@
 		<module>application</module>
 		<module>menu</module>
 		<module>orders</module>
+		<module>event</module>
 	</modules>
 	<url/>
 	<licenses>
