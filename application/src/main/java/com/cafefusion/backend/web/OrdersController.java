@@ -10,12 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrdersController {
 
     private final OrdersApi ordersApi;
+
+    @GetMapping("/my-history")
+    @PreAuthorize("hasRole('USER')")
+    public List<OrderDto> getMyHistory() {
+        return ordersApi.getMyOrderHistory();
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

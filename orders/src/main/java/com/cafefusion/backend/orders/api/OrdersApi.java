@@ -3,8 +3,14 @@ package com.cafefusion.backend.orders.api;
 
 import com.cafefusion.backend.orders.api.model.CreateOrderRequest;
 import com.cafefusion.backend.orders.api.model.OrderDto;
+import com.cafefusion.backend.orders.api.model.OrderStatus;
 import com.cafefusion.backend.orders.api.model.UpdateOrderRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -41,4 +47,23 @@ public interface OrdersApi {
      * @param orderId
      */
     void deleteOrder(Long orderId);
+
+    /**
+     * Gets the order history for the currently authenticated user.
+     * @return A list of their orders.
+     */
+    List<OrderDto> getMyOrderHistory();
+
+    // --- ADMIN ROLE ---
+
+    Page<OrderDto> getOrders(Pageable pageable);
+
+    Page<OrderDto> getOrdersByStatuses(List<OrderStatus> statuses, Pageable pageable);
+
+    Map<OrderStatus, Long> getOrderStatistics(Instant start, Instant end);
+
+    Page<OrderDto> getKitchenOrders(Pageable pageable);
+
+    OrderDto updateStatusValidated(Long orderId, UpdateOrderRequest request);
+
 }

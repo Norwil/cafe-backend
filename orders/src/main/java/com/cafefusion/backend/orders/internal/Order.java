@@ -19,6 +19,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, updatable = false)
+    private Long userId;
+
     @Column(nullable = false)
     private Instant createdAt;
 
@@ -34,9 +37,10 @@ public class Order {
 
     public Order() {}
 
-    public Order(Instant createdAt, BigDecimal totalPrice) {
+    public Order(Long userId, Instant createdAt, BigDecimal totalPrice) {
+        this.userId = userId;
         this.createdAt = createdAt;
         this.totalPrice = totalPrice;
-        this.status = OrderStatus.PENDING;
+        this.status = OrderStatus.PENDING_APPROVAL;
     }
 }
