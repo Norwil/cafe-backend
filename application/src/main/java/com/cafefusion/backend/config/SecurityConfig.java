@@ -33,9 +33,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
 
                         // Allow our public API documentation endpoints
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/api-docs/**").permitAll()
-                        .requestMatchers("/api-docs-ui.html").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()  // Swagger UI assets
+                        .requestMatchers("/swagger-ui/**").permitAll()
 
                         // Allow our public GET requests
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()
