@@ -29,10 +29,19 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Allow our public auth endpoints
                         .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // Allow our public API documentation endpoints
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/api-docs-ui.html").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()  // Swagger UI assets
+
+                        // Allow our public GET requests
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/events/**").permitAll()
 
+                        // ALL OTHER requests must be authenticated
                         .anyRequest().authenticated()
                 )
 
