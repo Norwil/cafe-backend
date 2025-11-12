@@ -20,31 +20,30 @@ Strict module isolation (physically and in code) keeps the system easy to mainta
 
 ## 🔑 Features
 
-- **Modular Monolith:**  
-  Multi-module Maven structure, one core application, four business domains.
-- **Isolation:**  
-  Separate DB schemas for each domain (Hibernate).
-- **Security:**  
-  - JWT-based stateless auth (Spring Security 6)
-  - Role-Based Access Control (RBAC):  
-    - `ADMIN`: Full access to menus, events, orders  
-    - `USER`: Can register, authenticate, place and view own orders  
-    - Public: Can view menus, events (no login required)
-- **API Docs:**  
-  Fully interactive via [Swagger UI](http://localhost:8080/api-docs-ui.html), supporting JWT Bearer authentication.
-- **Test Coverage:**  
-  - Unit: Pure Mockito for services  
-  - Integration: "Slice" @WebMvcTests for controller security and endpoints
-- **CI/CD:**  
-  GitHub Actions pipeline runs build + all tests for every PR.
+- **Modular Monolith:** Multi-module Maven structure, one core application, four business domains.
+- **Isolation:** Separate DB schemas for each domain (Hibernate).
+- **Security:** - JWT-based stateless auth (Spring Security 6)
+    - Role-Based Access Control (RBAC):
+        - `ADMIN`: Full access to menus, events, orders
+        - `USER`: Can register, authenticate, place and view own orders
+        - Public: Can view menus, events (no login required)
+- **Production-Grade API:**
+    - `NEW` **Robust Validation:** API request validation (`jakarta.validation`).
+    - `NEW` **Global Error Handling:** A central `@RestControllerAdvice` provides clean, consistent error responses.
+- **API Docs:** Fully interactive via [Swagger UI](http://localhost:8080/api-docs-ui.html), supporting JWT Bearer authentication.
+- **Test Coverage:** - Unit: Pure Mockito for services.
+    - Integration: "Slice" @WebMvcTests for controller security and endpoints.
+    - `NEW` **Full Integration:** `@SpringBootTest` with **Testcontainers** for high-confidence, real-database testing.
+- **CI/CD:** GitHub Actions pipeline runs build + all tests for every PR.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Java 21** | **Spring Boot 3** | **Spring Security 6**
-- **Spring Data JPA (Hibernate)** | **PostgreSQL** (Docker)
-- **Maven (Multi-Module)** | **JUnit 5** | **Mockito**
+- **Spring Data JPA (Hibernate)** | **PostgreSQL**
+- `NEW` **Docker** | **Docker Compose**
+- **Maven (Multi-Module)** | **JUnit 5** | **Mockito** | `NEW` **Testcontainers**
 - **Springdoc-OpenAPI (Swagger UI)**
 
 ---
@@ -56,23 +55,28 @@ Strict module isolation (physically and in code) keeps the system easy to mainta
 - Docker Desktop
 - Git
 
-**2. Start DB Container:**  
+**2. Clone & Configure**
 ```bash
-docker run -d -p 5433:5432 --name cafe-db -e POSTGRES_PASSWORD=password -e POSTGRES_USER=postgres -e POSTGRES_DB=coffeeshop postgres:latest
-```
-
-**3. Clone & Configure:**  
-```bash
-git clone https://github.com/YOUR_USERNAME/cafe-backend.git
+git clone [https://github.com/YOUR_USERNAME/cafe-backend.git](https://github.com/YOUR_USERNAME/cafe-backend.git)
 cd cafe-backend
 ```
-Configure environment variables (IntelliJ > Edit Configurations):
-- `SPRING_DATASOURCE_USERNAME=postgres`
-- `SPRING_DATASOURCE_PASSWORD=password`
-- `JWT_SECRET_KEY=averylongandverysecuresecretkeymustbehere12345`
 
-**4. Run the Project:**  
-Start `CafefusionBackendApplication` (IntelliJ “Run” or via Maven).
+**3. Create Environment File** Create a `.env` file in the project's root directory. This file is git-ignored and holds your secrets.
+```bash
+# .env
+POSTGRES_DB=coffeeshop
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+JWT_SECRET_KEY=a-very-long-and-secure-key-that-is-at-least-64-bytes-long-for-hs512
+SPRING_PROFILES_ACTIVE=default
+```
+
+**4. Run The Stack** This single command will build your application, start the Postgres database, and run the app.
+
+```bash
+docker-compose up --build
+```
+Your application is now running at http://localhost:8080.
 
 ---
 
