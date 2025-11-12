@@ -3,6 +3,7 @@ package com.cafefusion.backend.web;
 import com.cafefusion.backend.events.api.EventApi;
 import com.cafefusion.backend.events.api.model.CreateEventRequest;
 import com.cafefusion.backend.events.api.model.EventDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class EventController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public EventDto createNewEvent(@RequestBody CreateEventRequest request) {
+    public EventDto createNewEvent(@Valid @RequestBody CreateEventRequest request) {
         return eventApi.createEvent(request);
     }
 

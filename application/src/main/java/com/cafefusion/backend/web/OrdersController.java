@@ -4,6 +4,7 @@ import com.cafefusion.backend.orders.api.OrdersApi;
 import com.cafefusion.backend.orders.api.model.CreateOrderRequest;
 import com.cafefusion.backend.orders.api.model.OrderDto;
 import com.cafefusion.backend.orders.api.model.UpdateOrderRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class OrdersController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
-    public OrderDto createNewOrder(@RequestBody CreateOrderRequest request) {
+    public OrderDto createNewOrder(@Valid @RequestBody CreateOrderRequest request) {
         return ordersApi.createOrder(request);
     }
 
@@ -42,7 +43,9 @@ public class OrdersController {
 
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
-    public OrderDto updateOrderStatus(@PathVariable("id") Long orderId, @RequestBody UpdateOrderRequest request) {
+    public OrderDto updateOrderStatus(
+            @PathVariable("id") Long orderId,
+            @Valid @RequestBody UpdateOrderRequest request) {
         return ordersApi.updateOrderStatus(orderId, request);
     }
 

@@ -85,7 +85,7 @@ public class EventControllerTest {
     @WithMockUser(roles = "USER")
     void createNewEvent_whenUserRole_shouldReturnForbidden() throws Exception {
         CreateEventRequest request = new CreateEventRequest(
-                "New Event", "Desc", ZonedDateTime.now(), BigDecimal.ZERO
+                "New Event", "Desc", ZonedDateTime.now().plusDays(1), BigDecimal.ZERO
         );
 
         mockMvc.perform(post("/api/v1/events")
@@ -98,7 +98,7 @@ public class EventControllerTest {
     @WithMockUser(roles = "ADMIN")
     void createNewEvent_whenAdminRole_shouldReturnCreated() throws Exception {
         CreateEventRequest request = new CreateEventRequest(
-                "New Event", "Desc", ZonedDateTime.now(), BigDecimal.ZERO
+                "New Event", "Desc", ZonedDateTime.now().plusDays(1), BigDecimal.ZERO
         );
         EventDto responseDto = new EventDto(
                 1L, "New Event", "Desc", request.eventDateTime(), BigDecimal.ZERO

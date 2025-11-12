@@ -4,6 +4,7 @@ import com.cafefusion.backend.users.api.AuthenticationApi;
 import com.cafefusion.backend.users.api.model.AuthenticationRequest;
 import com.cafefusion.backend.users.api.model.AuthenticationResponse;
 import com.cafefusion.backend.users.api.model.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
             ) {
         return ResponseEntity.ok(authenticationApi.register(request));
     }
