@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    container_name: cafe-postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: cafe-backend-app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+      - spring.datasource.url=jdbc:postgresql://db:5432/${POSTGRES_DB}
+      - spring.datasource.username=${POSTGRES_USER}
+      - spring.datasource.password=${POSTGRES_PASSWORD}
+      - application.security.jwt.secret-key=${JWT_SECRET_KEY}
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
