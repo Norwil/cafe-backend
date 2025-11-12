@@ -4,6 +4,7 @@ import com.cafefusion.backend.orders.api.OrdersApi;
 import com.cafefusion.backend.orders.api.model.OrderDto;
 import com.cafefusion.backend.orders.api.model.OrderStatus;
 import com.cafefusion.backend.orders.api.model.UpdateOrderRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +53,9 @@ public class AdminOrdersController {
     }
 
     @PutMapping("/{id}/status")
-    public OrderDto updateStatus(@PathVariable Long id, @RequestBody UpdateOrderRequest request) {
+    public OrderDto updateStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateOrderRequest request) {
         return ordersApi.updateStatusValidated(id, request);
     }
 

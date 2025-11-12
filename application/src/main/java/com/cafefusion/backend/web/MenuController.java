@@ -5,6 +5,7 @@ import com.cafefusion.backend.menu.api.MenuApi;
 import com.cafefusion.backend.menu.api.model.CreateMenuItemRequest;
 import com.cafefusion.backend.menu.api.model.MenuItemDto;
 import com.cafefusion.backend.menu.api.model.UpdateMenuItemRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,13 +39,15 @@ public class MenuController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public MenuItemDto createMenuItem(@RequestBody CreateMenuItemRequest request) {
+    public MenuItemDto createMenuItem(@Valid @RequestBody CreateMenuItemRequest request) {
         return menuApi.createMenuItem(request);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public MenuItemDto updateMenuItem(@PathVariable Long id, @RequestBody UpdateMenuItemRequest request) {
+    public MenuItemDto updateMenuItem(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateMenuItemRequest request) {
         return menuApi.updateMenuItem(id, request);
     }
 
